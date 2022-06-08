@@ -1,5 +1,7 @@
 rm(list = ls())
 
+be_survey <- get_survey("https://doi.org/10.5281/zenodo.4035001")
+saveRDS(be_survey, "be.rds")
 be_survey <- readRDS("be.rds")
 
 data=be_survey
