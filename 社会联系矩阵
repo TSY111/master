@@ -4,6 +4,7 @@ be_survey <- get_survey("https://doi.org/10.5281/zenodo.4035001")
 saveRDS(be_survey, "be.rds")
 be_survey <- readRDS("be.rds")
 
+
 data=be_survey
 
 
@@ -72,6 +73,7 @@ df1=Reduce(function(d1, d2)
   merge(d1, d2, by = "part_id", all.x = TRUE, all.y = FALSE), 
   df_list1)
 partw1=subset(df1,wave=="1")
+partw1=partw1[!duplicated(partw1),]
 
 df_list2 <- list(con,sday)
 df2=Reduce(function(d1, d2) 
@@ -93,3 +95,4 @@ df <- melt(mr, varnames = c("par", "con"), value.name = "contacts")
 ggplot(df, aes(x = par, y = con, fill = contacts),method="number")+theme(legend.position = "bottom") + geom_tile()
 #wave1
 #dont konw how to Label data on a graph like paper
+
