@@ -1,4 +1,6 @@
 library(here)
+library(tibble)
+library(readr)
 
 ## If Belgium data have not already been downloaded, redownload.
 if(!file.exists(here("data","be.rds")) || !file.exists(here("data","be_sday.csv"))){
@@ -8,3 +10,10 @@ if(!file.exists(here("data","be.rds")) || !file.exists(here("data","be_sday.csv"
   download.file(sday_URL, here("data", "be_sday.csv"))
   saveRDS(be_survey, here("data","be.rds"))
 }
+
+be_survey <- readRDS(here("data","be.rds"))
+be_sday <- read_csv(here("data","be_sday.csv"))
+be_part <- as_tibble(be_survey[[1]])
+be_part <- be_part[!duplicated(be_part),]
+be_con <- as_tibble(be_survey[[2]])
+be_con <- be_con[!duplicated(be_con),]
