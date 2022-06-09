@@ -1,8 +1,6 @@
 library(here)
 source(here("get_data.R"))
 
-library(socialmixr)
-
 sday <- be_sday
 part <- be_part
 con <- be_con

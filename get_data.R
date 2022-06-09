@@ -1,4 +1,5 @@
 library(here)
+library(socialmixr)
 library(tibble)
 library(readr)
 
