@@ -5,7 +5,7 @@ library(readr)
 
 ## If Belgium data have not already been downloaded, redownload.
 if(!file.exists(here("data","be.rds")) || !file.exists(here("data","be_sday.csv"))){
-  be_URLs <- capture.output(be_survey <- get_survey("https://doi.org/10.5281/zenodo.4035001"), type="message")
+  be_URLs <- capture.output(be_survey <- get_survey("10.5281/zenodo.4147585"), type="message") # Use Version 2 per Pietro Coletti.
   sday_URL <-  be_URLs[min(grep("_sday.csv", be_URLs))] %>% sub("Downloading ", "", .)
   dir.create(here("data"), FALSE)
   download.file(sday_URL, here("data", "be_sday.csv"))
