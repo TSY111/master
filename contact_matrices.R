@@ -17,4 +17,6 @@ mat <- contact_matrix(sur1, age.limits = c(0, 5, 18,30,40,50,60,70))$matrix
 library(reshape2)
 library(ggplot2)
 df <- melt(mat, varnames = c("par", "con"), value.name = "contacts")
-ggplot(df, aes(x = par, y = con, fill = contacts),method="number")+theme(legend.position = "bottom") + geom_tile()
+
+df$text_color <- ifelse(df$contacts>mean(range(df$contacts, na.rm=TRUE)),"up" ,"low" )
+ggplot(df, aes(x = par, y = con, fill = contacts),method="number")+theme(legend.position = "bottom") + geom_tile()+ geom_tile()+ geom_text(aes(label=paste0(round(100*contacts),"%"),color=text_color), show.legend = FALSE) + scale_colour_manual(values=c("cadetblue3","black"))
