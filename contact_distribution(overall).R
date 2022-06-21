@@ -9,6 +9,7 @@ library(dplyr)
 partw1 <- inner_join(sday, part, by="part_id") %>% filter(wave==1)
 conw1 <- inner_join(sday, con, by="part_id") %>% filter(wave==1)
 
+##overall
 connum_active <- conw1 %>% group_by(part_id) %>% summarise(ncontacts = n())
 table(connum_active$ncontacts)
 summary(connum_active)
