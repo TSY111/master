@@ -98,7 +98,6 @@ interval.t1=c(int11,int21,int31,int41,int51,int61,int71,int81)
 interval.t2=c(int12,int22,int32,int42,int52,int62,int72,int82)
 interval.name=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8")
 interval.data=data.frame(interval.name,connumage.mean,interval.t1,interval.t2)
-interval.data=as.matrix(interval.data)
 
 figure=forestplot(interval.data[,1],interval.data[,2:4],
            ci.vertices=TRUE,
