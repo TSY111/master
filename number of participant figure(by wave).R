@@ -63,7 +63,6 @@ interval.t1=c(int11,int21,int31,int41,int51,int61)
 interval.t2=c(int12,int22,int32,int42,int52,int62)
 interval.name=c("[20,30)","[30,40)","[40,50)","[50,60)","[60,70)","[70,100)")
 interval.data=data.frame(interval.name,connumage.mean,interval.t1,interval.t2)
-interval.data=as.matrix(interval.data)
 
 ##install.packages("pacman")
 library(pacman)
