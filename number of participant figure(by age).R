@@ -66,47 +66,47 @@ meanw6age1=mean(connum_allw6age1$ncontacts)
 meanw7age1=mean(connum_allw7age1$ncontacts)
 meanw8age1=mean(connum_allw8age1$ncontacts)
 
-t1=t.test(connum_allw1age1$ncontacts)
-t2=t.test(connum_allw2age1$ncontacts)
-t3=t.test(connum_allw3age1$ncontacts)
-t4=t.test(connum_allw4age1$ncontacts)
-t5=t.test(connum_allw5age1$ncontacts)
-t6=t.test(connum_allw6age1$ncontacts)
-t7=t.test(connum_allw7age1$ncontacts)
-t8=t.test(connum_allw8age1$ncontacts)
+age1t1=t.test(connum_allw1age1$ncontacts)
+age1t2=t.test(connum_allw2age1$ncontacts)
+age1t3=t.test(connum_allw3age1$ncontacts)
+age1t4=t.test(connum_allw4age1$ncontacts)
+age1t5=t.test(connum_allw5age1$ncontacts)
+age1t6=t.test(connum_allw6age1$ncontacts)
+age1t7=t.test(connum_allw7age1$ncontacts)
+age1t8=t.test(connum_allw8age1$ncontacts)
 
-int11=t1[4]$conf.int[1]
-int21=t2[4]$conf.int[1]
-int31=t3[4]$conf.int[1]
-int41=t4[4]$conf.int[1]
-int51=t5[4]$conf.int[1]
-int61=t6[4]$conf.int[1]
-int71=t7[4]$conf.int[1]
-int81=t8[4]$conf.int[1]
+age1int11=age1t1[4]$conf.int[1]
+age1int21=age1t2[4]$conf.int[1]
+age1int31=age1t3[4]$conf.int[1]
+age1int41=age1t4[4]$conf.int[1]
+age1int51=age1t5[4]$conf.int[1]
+age1int61=age1t6[4]$conf.int[1]
+age1int71=age1t7[4]$conf.int[1]
+age1int81=age1t8[4]$conf.int[1]
 
-int12=t1[4]$conf.int[2]
-int22=t2[4]$conf.int[2]
-int32=t3[4]$conf.int[2]
-int42=t4[4]$conf.int[2]
-int52=t5[4]$conf.int[2]
-int62=t6[4]$conf.int[2]
-int72=t7[4]$conf.int[2]
-int82=t8[4]$conf.int[2]
+age1int12=age1t1[4]$conf.int[2]
+age1int22=age1t2[4]$conf.int[2]
+age1int32=age1t3[4]$conf.int[2]
+age1int42=age1t4[4]$conf.int[2]
+age1int52=age1t5[4]$conf.int[2]
+age1int62=age1t6[4]$conf.int[2]
+age1int72=age1t7[4]$conf.int[2]
+age1int82=age1t8[4]$conf.int[2]
 
-connumage.mean=c(meanw1age1,meanw2age1,meanw3age1,meanw4age1,meanw5age1,meanw6age1,meanw7age1,meanw8age1)
-interval.t1=c(int11,int21,int31,int41,int51,int61,int71,int81)
-interval.t2=c(int12,int22,int32,int42,int52,int62,int72,int82)
-interval.name=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8")
-interval.data=data.frame(interval.name,connumage.mean,interval.t1,interval.t2)
+age1connumage.mean=c(meanw1age1,meanw2age1,meanw3age1,meanw4age1,meanw5age1,meanw6age1,meanw7age1,meanw8age1)
+age1interval.t1=c(age1int11,age1int21,age1int31,age1int41,age1int51,age1int61,age1int71,age1int81)
+age1interval.t2=c(age1int12,age1int22,age1int32,age1int42,age1int52,age1int62,age1int72,age1int82)
+age1interval.name=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8")
+age1interval.data=data.frame(age1interval.name,age1connumage.mean,age1interval.t1,age1interval.t2)
 
 ##install.packages("pacman")
-library(pacman)
-pacman::p_load(forestplot)
+#library(pacman)
+#pacman::p_load(forestplot)
 ##?forestplot
 
 x1=interval.data[,1]
 x2=interval.data[,2:4]
-##figure=forestplot(interval.data[,1],interval.data[,2:4],
+##figure=forestplot(age1interval.data[,1],age1interval.data[,2:4],
 #           ci.vertices=TRUE,
 #           ci.vertices.height=0.1,
 #           graph.pos=2,
@@ -124,15 +124,18 @@ x2=interval.data[,2:4]
 ##install.packages("ggplot2")
 library(ggplot2)
 
-df=data.frame(wave=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8"),
-              mean=c(meanw1age1,meanw2age1,meanw3age1,meanw4age1,meanw5age1,meanw6age1,meanw7age1,meanw8age1),
+dfage1=data.frame(wave=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8"),
+              number=age1connumage.mean,
               group=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8"),
-              upper=c(int12,int22,int32,int42,int52,int62,int72,int82),
-              lower=c(int11,int21,int31,int41,int51,int61,int71,int81)
+              upper=age1interval.t2,
+              lower=age1interval.t1
               )
 
-p <- ggplot(df, aes(wave, mean, colour = group))
-p + geom_pointrange(aes(ymin = lower, ymax = upper))
+age1plot <- ggplot(dfage1, aes(wave, number, colour = group))
+age1plot + geom_pointrange(aes(ymin = lower, ymax = upper))+
+  ggtitle("participant age 18-29") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ylab("number of contacts")
 
 ######age group2
 
