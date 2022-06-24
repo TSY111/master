@@ -114,3 +114,20 @@ figure=forestplot(interval.data[,1],interval.data[,2:4],
            xlab="Number of Contacts",
            title="participant age 18-29")
 figure
+
+
+##use ggplot2
+##install.packages("ggplot2")
+library(ggplot2)
+
+df=data.frame(wave=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8"),
+              mean=c(meanw1age1,meanw2age1,meanw3age1,meanw4age1,meanw5age1,meanw6age1,meanw7age1,meanw8age1),
+              group=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8"),
+              upper=c(int12,int22,int32,int42,int52,int62,int72,int82),
+              lower=c(int11,int21,int31,int41,int51,int61,int71,int81)
+              )
+
+p <- ggplot(df, aes(wave, mean, colour = group))
+p + geom_pointrange(aes(ymin = lower, ymax = upper))
+
+
