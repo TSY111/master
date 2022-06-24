@@ -97,7 +97,6 @@ age1connumage.mean=c(meanw1age1,meanw2age1,meanw3age1,meanw4age1,meanw5age1,mean
 age1interval.t1=c(age1int11,age1int21,age1int31,age1int41,age1int51,age1int61,age1int71,age1int81)
 age1interval.t2=c(age1int12,age1int22,age1int32,age1int42,age1int52,age1int62,age1int72,age1int82)
 age1interval.name=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8")
-age1interval.data=data.frame(age1interval.name,age1connumage.mean,age1interval.t1,age1interval.t2)
 
 ##install.packages("pacman")
 #library(pacman)
@@ -124,19 +123,18 @@ x2=interval.data[,2:4]
 ##install.packages("ggplot2")
 library(ggplot2)
 
-dfage1=data.frame(wave=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8"),
+age1interval.data=data.frame(wave=age1interval.name,
               number=age1connumage.mean,
-              group=c("wave1","wave2","wave3","wave4","wave5","wave6","wave7","wave8"),
+              group=age1interval.name,
               upper=age1interval.t2,
               lower=age1interval.t1
               )
 
-age1plot <- ggplot(dfage1, aes(wave, number, colour = group))
+age1plot <- ggplot(age1interval.data, aes(wave, number, colour = group))
 age1plot + geom_pointrange(aes(ymin = lower, ymax = upper))+
   ggtitle("participant age 18-29") +
   theme(plot.title = element_text(hjust = 0.5))+
   ylab("number of contacts")
 
 ######age group2
-
 
