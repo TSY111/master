@@ -671,3 +671,12 @@ figure7
 figure2|figure3|figure4|figure5|figure6|figure7
 
 
+
+png( 
+  filename = "figure2.png",
+  width = 10,       
+  height = 10,          
+  units = "in",     
+  res = 300)       
+figure2|figure3|figure4|figure5|figure6|figure7
+dev.off()
