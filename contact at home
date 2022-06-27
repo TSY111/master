@@ -1,0 +1,74 @@
+###contact at home
+connum_allw1age2.home <- left_join(partw1age2, conw1age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw2age2.home <- left_join(partw2age2, conw2age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw3age2.home <- left_join(partw3age2, conw3age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw4age2.home <- left_join(partw4age2, conw4age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw5age2.home <- left_join(partw5age2, conw5age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw6age2.home <- left_join(partw6age2, conw6age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw7age2.home <- left_join(partw7age2, conw7age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw8age2.home <- left_join(partw8age2, conw8age2, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+
+meanw1age2.home=mean(connum_allw1age2.home$ncontacts)
+meanw2age2.home=mean(connum_allw2age2.home$ncontacts)
+meanw3age2.home=mean(connum_allw3age2.home$ncontacts)
+meanw4age2.home=mean(connum_allw4age2.home$ncontacts)
+meanw5age2.home=mean(connum_allw5age2.home$ncontacts)
+meanw6age2.home=mean(connum_allw6age2.home$ncontacts)
+meanw7age2.home=mean(connum_allw7age2.home$ncontacts)
+meanw8age2.home=mean(connum_allw8age2.home$ncontacts)
+
+age2t1.home=t.test(connum_allw1age2.home$ncontacts)
+age2t2.home=t.test(connum_allw2age2.home$ncontacts)
+age2t3.home=t.test(connum_allw3age2.home$ncontacts)
+age2t4.home=t.test(connum_allw4age2.home$ncontacts)
+age2t5.home=t.test(connum_allw5age2.home$ncontacts)
+age2t6.home=t.test(connum_allw6age2.home$ncontacts)
+age2t7.home=t.test(connum_allw7age2.home$ncontacts)
+age2t8.home=t.test(connum_allw8age2.home$ncontacts)
+
+
+age2int11.home=age2t1.home[4]$conf.int[1]
+age2int21.home=age2t2.home[4]$conf.int[1]
+age2int31.home=age2t3.home[4]$conf.int[1]
+age2int41.home=age2t4.home[4]$conf.int[1]
+age2int51.home=age2t5.home[4]$conf.int[1]
+age2int61.home=age2t6.home[4]$conf.int[1]
+age2int71.home=age2t7.home[4]$conf.int[1]
+age2int81.home=age2t8.home[4]$conf.int[1]
+
+
+age2int12.home=age2t1.home[4]$conf.int[2]
+age2int22.home=age2t2.home[4]$conf.int[2]
+age2int32.home=age2t3.home[4]$conf.int[2]
+age2int42.home=age2t4.home[4]$conf.int[2]
+age2int52.home=age2t5.home[4]$conf.int[2]
+age2int62.home=age2t6.home[4]$conf.int[2]
+age2int72.home=age2t7.home[4]$conf.int[2]
+age2int82.home=age2t8.home[4]$conf.int[2]
+
+age2connumage.mean.home=c(meanw1age2.home,meanw2age2.home,meanw3age2.home,meanw4age2.home,meanw5age2.home,meanw6age2.home,meanw7age2.home,meanw8age2.home)
+
+age2interval.t1.home=c(age2int11.home,age2int21.home,age2int31.home,age2int41.home,age2int51.home,age2int61.home,age2int71.home,age2int81.home)
+age2interval.t2.home=c(age2int12.home,age2int22.home,age2int32.home,age2int42.home,age2int52.home,age2int62.home,age2int72.home,age2int82.home)
+
+
+age2interval.data.home=data.frame(wave=ageinterval.name1,
+                             number=age2connumage.mean.home,
+                             dataset=ageinterval.name2,
+                             upper=age2interval.t2.home,
+                             lower=age2interval.t1.home
+)
+
+##figure
+
+p <- ggplot(age2interval.data.home, aes(wave, number, colour = dataset))
+p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
+  ggtitle("participant age:
+18-29") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ylab("number of contacts")+
+  xlab(NULL)+
+  ylim(0,3)+
+  coord_fixed(ratio=2)+
+  theme(legend.position = "none")+
+  theme(axis.text.x = element_blank())
