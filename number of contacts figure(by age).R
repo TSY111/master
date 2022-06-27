@@ -673,7 +673,7 @@ figure2|figure3|figure4|figure5|figure6|figure7
 
 
 png( 
-  filename = "figure2.png",
+  filename = "figure1.png",
   width = 10,       
   height = 10,          
   units = "in",     
