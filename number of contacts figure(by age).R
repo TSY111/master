@@ -667,7 +667,7 @@ figure7
 
 
 ##install.packages("patchwork")
-#library(patchwork)
+library(patchwork)
 figure2|figure3|figure4|figure5|figure6|figure7
 
 
