@@ -59,16 +59,406 @@ age2interval.data.home=data.frame(wave=ageinterval.name1,
                              lower=age2interval.t1.home
 )
 
-##figure
+#figure
+library(ggplot2)
 
 p <- ggplot(age2interval.data.home, aes(wave, number, colour = dataset))
-p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
+figure22=p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
   ggtitle("participant age:
 18-29") +
   theme(plot.title = element_text(hjust = 0.5))+
   ylab("number of contacts")+
   xlab(NULL)+
   ylim(0,3)+
-  coord_fixed(ratio=2)+
+  coord_fixed(ratio=5)+
   theme(legend.position = "none")+
   theme(axis.text.x = element_blank())
+figure22
+
+######age3
+connum_allw1age3.home <- left_join(partw1age3, conw1age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw2age3.home <- left_join(partw2age3, conw2age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw3age3.home <- left_join(partw3age3, conw3age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw4age3.home <- left_join(partw4age3, conw4age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw5age3.home <- left_join(partw5age3, conw5age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw6age3.home <- left_join(partw6age3, conw6age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw7age3.home <- left_join(partw7age3, conw7age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw8age3.home <- left_join(partw8age3, conw8age3, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+
+meanw1age3.home=mean(connum_allw1age3.home$ncontacts)
+meanw2age3.home=mean(connum_allw2age3.home$ncontacts)
+meanw3age3.home=mean(connum_allw3age3.home$ncontacts)
+meanw4age3.home=mean(connum_allw4age3.home$ncontacts)
+meanw5age3.home=mean(connum_allw5age3.home$ncontacts)
+meanw6age3.home=mean(connum_allw6age3.home$ncontacts)
+meanw7age3.home=mean(connum_allw7age3.home$ncontacts)
+meanw8age3.home=mean(connum_allw8age3.home$ncontacts)
+
+age3t1.home=t.test(connum_allw1age3.home$ncontacts)
+age3t2.home=t.test(connum_allw2age3.home$ncontacts)
+age3t3.home=t.test(connum_allw3age3.home$ncontacts)
+age3t4.home=t.test(connum_allw4age3.home$ncontacts)
+age3t5.home=t.test(connum_allw5age3.home$ncontacts)
+age3t6.home=t.test(connum_allw6age3.home$ncontacts)
+age3t7.home=t.test(connum_allw7age3.home$ncontacts)
+age3t8.home=t.test(connum_allw8age3.home$ncontacts)
+
+
+age3int11.home=age3t1.home[4]$conf.int[1]
+age3int21.home=age3t2.home[4]$conf.int[1]
+age3int31.home=age3t3.home[4]$conf.int[1]
+age3int41.home=age3t4.home[4]$conf.int[1]
+age3int51.home=age3t5.home[4]$conf.int[1]
+age3int61.home=age3t6.home[4]$conf.int[1]
+age3int71.home=age3t7.home[4]$conf.int[1]
+age3int81.home=age3t8.home[4]$conf.int[1]
+
+
+age3int12.home=age3t1.home[4]$conf.int[2]
+age3int22.home=age3t2.home[4]$conf.int[2]
+age3int32.home=age3t3.home[4]$conf.int[2]
+age3int42.home=age3t4.home[4]$conf.int[2]
+age3int52.home=age3t5.home[4]$conf.int[2]
+age3int62.home=age3t6.home[4]$conf.int[2]
+age3int72.home=age3t7.home[4]$conf.int[2]
+age3int82.home=age3t8.home[4]$conf.int[2]
+
+age3connumage.mean.home=c(meanw1age3.home,meanw2age3.home,meanw3age3.home,meanw4age3.home,meanw5age3.home,meanw6age3.home,meanw7age3.home,meanw8age3.home)
+
+age3interval.t1.home=c(age3int11.home,age3int21.home,age3int31.home,age3int41.home,age3int51.home,age3int61.home,age3int71.home,age3int81.home)
+age3interval.t2.home=c(age3int12.home,age3int22.home,age3int32.home,age3int42.home,age3int52.home,age3int62.home,age3int72.home,age3int82.home)
+
+
+age3interval.data.home=data.frame(wave=ageinterval.name1,
+                                  number=age3connumage.mean.home,
+                                  dataset=ageinterval.name2,
+                                  upper=age3interval.t2.home,
+                                  lower=age3interval.t1.home
+)
+
+
+p <- ggplot(age3interval.data.home, aes(wave, number, colour = dataset))
+figure23=p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
+  ggtitle("participant age:
+30-39") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ylab(NULL)+
+  xlab(NULL)+
+  ylim(0,3)+
+  coord_fixed(ratio=5)+
+  theme(legend.position = "none")+
+  theme(axis.text.x = element_blank())+
+  theme(axis.text.y = element_blank())
+figure23
+
+######age4
+connum_allw1age4.home <- left_join(partw1age4, conw1age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw2age4.home <- left_join(partw2age4, conw2age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw3age4.home <- left_join(partw3age4, conw3age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw4age4.home <- left_join(partw4age4, conw4age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw5age4.home <- left_join(partw5age4, conw5age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw6age4.home <- left_join(partw6age4, conw6age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw7age4.home <- left_join(partw7age4, conw7age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw8age4.home <- left_join(partw8age4, conw8age4, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+
+meanw1age4.home=mean(connum_allw1age4.home$ncontacts)
+meanw2age4.home=mean(connum_allw2age4.home$ncontacts)
+meanw3age4.home=mean(connum_allw3age4.home$ncontacts)
+meanw4age4.home=mean(connum_allw4age4.home$ncontacts)
+meanw5age4.home=mean(connum_allw5age4.home$ncontacts)
+meanw6age4.home=mean(connum_allw6age4.home$ncontacts)
+meanw7age4.home=mean(connum_allw7age4.home$ncontacts)
+meanw8age4.home=mean(connum_allw8age4.home$ncontacts)
+
+age4t1.home=t.test(connum_allw1age4.home$ncontacts)
+age4t2.home=t.test(connum_allw2age4.home$ncontacts)
+age4t3.home=t.test(connum_allw3age4.home$ncontacts)
+age4t4.home=t.test(connum_allw4age4.home$ncontacts)
+age4t5.home=t.test(connum_allw5age4.home$ncontacts)
+age4t6.home=t.test(connum_allw6age4.home$ncontacts)
+age4t7.home=t.test(connum_allw7age4.home$ncontacts)
+age4t8.home=t.test(connum_allw8age4.home$ncontacts)
+
+
+age4int11.home=age4t1.home[4]$conf.int[1]
+age4int21.home=age4t2.home[4]$conf.int[1]
+age4int31.home=age4t3.home[4]$conf.int[1]
+age4int41.home=age4t4.home[4]$conf.int[1]
+age4int51.home=age4t5.home[4]$conf.int[1]
+age4int61.home=age4t6.home[4]$conf.int[1]
+age4int71.home=age4t7.home[4]$conf.int[1]
+age4int81.home=age4t8.home[4]$conf.int[1]
+
+
+age4int12.home=age4t1.home[4]$conf.int[2]
+age4int22.home=age4t2.home[4]$conf.int[2]
+age4int32.home=age4t3.home[4]$conf.int[2]
+age4int42.home=age4t4.home[4]$conf.int[2]
+age4int52.home=age4t5.home[4]$conf.int[2]
+age4int62.home=age4t6.home[4]$conf.int[2]
+age4int72.home=age4t7.home[4]$conf.int[2]
+age4int82.home=age4t8.home[4]$conf.int[2]
+
+age4connumage.mean.home=c(meanw1age4.home,meanw2age4.home,meanw3age4.home,meanw4age4.home,meanw5age4.home,meanw6age4.home,meanw7age4.home,meanw8age4.home)
+
+age4interval.t1.home=c(age4int11.home,age4int21.home,age4int31.home,age4int41.home,age4int51.home,age4int61.home,age4int71.home,age4int81.home)
+age4interval.t2.home=c(age4int12.home,age4int22.home,age4int32.home,age4int42.home,age4int52.home,age4int62.home,age4int72.home,age4int82.home)
+
+
+age4interval.data.home=data.frame(wave=ageinterval.name1,
+                                  number=age4connumage.mean.home,
+                                  dataset=ageinterval.name2,
+                                  upper=age4interval.t2.home,
+                                  lower=age4interval.t1.home
+)
+
+p <- ggplot(age4interval.data.home, aes(wave, number, colour = dataset))
+figure24=p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
+  ggtitle("participant age:
+40-49") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ylab(NULL)+
+  xlab(NULL)+
+  ylim(0,3)+
+  coord_fixed(ratio=5)+
+  theme(legend.position = "none")+
+  theme(axis.text.x = element_blank())+
+  theme(axis.text.y = element_blank())
+figure24
+
+######age5
+connum_allw1age5.home <- left_join(partw1age5, conw1age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw2age5.home <- left_join(partw2age5, conw2age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw3age5.home <- left_join(partw3age5, conw3age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw4age5.home <- left_join(partw4age5, conw4age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw5age5.home <- left_join(partw5age5, conw5age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw6age5.home <- left_join(partw6age5, conw6age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw7age5.home <- left_join(partw7age5, conw7age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw8age5.home <- left_join(partw8age5, conw8age5, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+
+meanw1age5.home=mean(connum_allw1age5.home$ncontacts)
+meanw2age5.home=mean(connum_allw2age5.home$ncontacts)
+meanw3age5.home=mean(connum_allw3age5.home$ncontacts)
+meanw4age5.home=mean(connum_allw4age5.home$ncontacts)
+meanw5age5.home=mean(connum_allw5age5.home$ncontacts)
+meanw6age5.home=mean(connum_allw6age5.home$ncontacts)
+meanw7age5.home=mean(connum_allw7age5.home$ncontacts)
+meanw8age5.home=mean(connum_allw8age5.home$ncontacts)
+
+age5t1.home=t.test(connum_allw1age5.home$ncontacts)
+age5t2.home=t.test(connum_allw2age5.home$ncontacts)
+age5t3.home=t.test(connum_allw3age5.home$ncontacts)
+age5t4.home=t.test(connum_allw4age5.home$ncontacts)
+age5t5.home=t.test(connum_allw5age5.home$ncontacts)
+age5t6.home=t.test(connum_allw6age5.home$ncontacts)
+age5t7.home=t.test(connum_allw7age5.home$ncontacts)
+age5t8.home=t.test(connum_allw8age5.home$ncontacts)
+
+
+age5int11.home=age5t1.home[4]$conf.int[1]
+age5int21.home=age5t2.home[4]$conf.int[1]
+age5int31.home=age5t3.home[4]$conf.int[1]
+age5int41.home=age5t4.home[4]$conf.int[1]
+age5int51.home=age5t5.home[4]$conf.int[1]
+age5int61.home=age5t6.home[4]$conf.int[1]
+age5int71.home=age5t7.home[4]$conf.int[1]
+age5int81.home=age5t8.home[4]$conf.int[1]
+
+
+age5int12.home=age5t1.home[4]$conf.int[2]
+age5int22.home=age5t2.home[4]$conf.int[2]
+age5int32.home=age5t3.home[4]$conf.int[2]
+age5int42.home=age5t4.home[4]$conf.int[2]
+age5int52.home=age5t5.home[4]$conf.int[2]
+age5int62.home=age5t6.home[4]$conf.int[2]
+age5int72.home=age5t7.home[4]$conf.int[2]
+age5int82.home=age5t8.home[4]$conf.int[2]
+
+age5connumage.mean.home=c(meanw1age5.home,meanw2age5.home,meanw3age5.home,meanw4age5.home,meanw5age5.home,meanw6age5.home,meanw7age5.home,meanw8age5.home)
+
+age5interval.t1.home=c(age5int11.home,age5int21.home,age5int31.home,age5int41.home,age5int51.home,age5int61.home,age5int71.home,age5int81.home)
+age5interval.t2.home=c(age5int12.home,age5int22.home,age5int32.home,age5int42.home,age5int52.home,age5int62.home,age5int72.home,age5int82.home)
+
+
+age5interval.data.home=data.frame(wave=ageinterval.name1,
+                                  number=age5connumage.mean.home,
+                                  dataset=ageinterval.name2,
+                                  upper=age5interval.t2.home,
+                                  lower=age5interval.t1.home
+)
+
+p <- ggplot(age5interval.data.home, aes(wave, number, colour = dataset))
+figure25=p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
+  ggtitle("participant age:
+50-59") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ylab(NULL)+
+  xlab(NULL)+
+  ylim(0,3)+
+  coord_fixed(ratio=5)+
+  theme(legend.position = "none")+
+  theme(axis.text.x = element_blank())+
+  theme(axis.text.y = element_blank())
+figure25
+
+######age6
+connum_allw1age6.home <- left_join(partw1age6, conw1age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw2age6.home <- left_join(partw2age6, conw2age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw3age6.home <- left_join(partw3age6, conw3age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw4age6.home <- left_join(partw4age6, conw4age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw5age6.home <- left_join(partw5age6, conw5age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw6age6.home <- left_join(partw6age6, conw6age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw7age6.home <- left_join(partw7age6, conw7age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw8age6.home <- left_join(partw8age6, conw8age6, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+
+meanw1age6.home=mean(connum_allw1age6.home$ncontacts)
+meanw2age6.home=mean(connum_allw2age6.home$ncontacts)
+meanw3age6.home=mean(connum_allw3age6.home$ncontacts)
+meanw4age6.home=mean(connum_allw4age6.home$ncontacts)
+meanw5age6.home=mean(connum_allw5age6.home$ncontacts)
+meanw6age6.home=mean(connum_allw6age6.home$ncontacts)
+meanw7age6.home=mean(connum_allw7age6.home$ncontacts)
+meanw8age6.home=mean(connum_allw8age6.home$ncontacts)
+
+age6t1.home=t.test(connum_allw1age6.home$ncontacts)
+age6t2.home=t.test(connum_allw2age6.home$ncontacts)
+age6t3.home=t.test(connum_allw3age6.home$ncontacts)
+age6t4.home=t.test(connum_allw4age6.home$ncontacts)
+age6t5.home=t.test(connum_allw5age6.home$ncontacts)
+age6t6.home=t.test(connum_allw6age6.home$ncontacts)
+age6t7.home=t.test(connum_allw7age6.home$ncontacts)
+age6t8.home=t.test(connum_allw8age6.home$ncontacts)
+
+
+age6int11.home=age6t1.home[4]$conf.int[1]
+age6int21.home=age6t2.home[4]$conf.int[1]
+age6int31.home=age6t3.home[4]$conf.int[1]
+age6int41.home=age6t4.home[4]$conf.int[1]
+age6int51.home=age6t5.home[4]$conf.int[1]
+age6int61.home=age6t6.home[4]$conf.int[1]
+age6int71.home=age6t7.home[4]$conf.int[1]
+age6int81.home=age6t8.home[4]$conf.int[1]
+
+
+age6int12.home=age6t1.home[4]$conf.int[2]
+age6int22.home=age6t2.home[4]$conf.int[2]
+age6int32.home=age6t3.home[4]$conf.int[2]
+age6int42.home=age6t4.home[4]$conf.int[2]
+age6int52.home=age6t5.home[4]$conf.int[2]
+age6int62.home=age6t6.home[4]$conf.int[2]
+age6int72.home=age6t7.home[4]$conf.int[2]
+age6int82.home=age6t8.home[4]$conf.int[2]
+
+age6connumage.mean.home=c(meanw1age6.home,meanw2age6.home,meanw3age6.home,meanw4age6.home,meanw5age6.home,meanw6age6.home,meanw7age6.home,meanw8age6.home)
+
+age6interval.t1.home=c(age6int11.home,age6int21.home,age6int31.home,age6int41.home,age6int51.home,age6int61.home,age6int71.home,age6int81.home)
+age6interval.t2.home=c(age6int12.home,age6int22.home,age6int32.home,age6int42.home,age6int52.home,age6int62.home,age6int72.home,age6int82.home)
+
+
+age6interval.data.home=data.frame(wave=ageinterval.name1,
+                                  number=age6connumage.mean.home,
+                                  dataset=ageinterval.name2,
+                                  upper=age6interval.t2.home,
+                                  lower=age6interval.t1.home
+)
+
+p <- ggplot(age6interval.data.home, aes(wave, number, colour = dataset))
+figure26=p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
+  ggtitle("participant age:
+60-69") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ylab(NULL)+
+  xlab(NULL)+
+  ylim(0,3)+
+  coord_fixed(ratio=5)+
+  theme(legend.position = "none")+
+  theme(axis.text.x = element_blank())+
+  theme(axis.text.y = element_blank())
+figure26
+
+######age7
+connum_allw1age7.home <- left_join(partw1age7, conw1age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw2age7.home <- left_join(partw2age7, conw2age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw3age7.home <- left_join(partw3age7, conw3age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw4age7.home <- left_join(partw4age7, conw4age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw5age7.home <- left_join(partw5age7, conw5age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw6age7.home <- left_join(partw6age7, conw6age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw7age7.home <- left_join(partw7age7, conw7age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+connum_allw8age7.home <- left_join(partw8age7, conw8age7, "part_id") %>% group_by(part_id) %>%filter(cnt_home=="TRUE")%>%  summarise(ncontacts = sum(!is.na(sday_id.y)))
+
+meanw1age7.home=mean(connum_allw1age7.home$ncontacts)
+meanw2age7.home=mean(connum_allw2age7.home$ncontacts)
+meanw3age7.home=mean(connum_allw3age7.home$ncontacts)
+meanw4age7.home=mean(connum_allw4age7.home$ncontacts)
+meanw5age7.home=mean(connum_allw5age7.home$ncontacts)
+meanw6age7.home=mean(connum_allw6age7.home$ncontacts)
+meanw7age7.home=mean(connum_allw7age7.home$ncontacts)
+meanw8age7.home=mean(connum_allw8age7.home$ncontacts)
+
+age7t1.home=t.test(connum_allw1age7.home$ncontacts)
+age7t2.home=t.test(connum_allw2age7.home$ncontacts)
+age7t3.home=t.test(connum_allw3age7.home$ncontacts)
+age7t4.home=t.test(connum_allw4age7.home$ncontacts)
+age7t5.home=t.test(connum_allw5age7.home$ncontacts)
+age7t6.home=t.test(connum_allw6age7.home$ncontacts)
+age7t7.home=t.test(connum_allw7age7.home$ncontacts)
+age7t8.home=t.test(connum_allw8age7.home$ncontacts)
+
+
+age7int11.home=age7t1.home[4]$conf.int[1]
+age7int21.home=age7t2.home[4]$conf.int[1]
+age7int31.home=age7t3.home[4]$conf.int[1]
+age7int41.home=age7t4.home[4]$conf.int[1]
+age7int51.home=age7t5.home[4]$conf.int[1]
+age7int61.home=age7t6.home[4]$conf.int[1]
+age7int71.home=age7t7.home[4]$conf.int[1]
+age7int81.home=age7t8.home[4]$conf.int[1]
+
+
+age7int12.home=age7t1.home[4]$conf.int[2]
+age7int22.home=age7t2.home[4]$conf.int[2]
+age7int32.home=age7t3.home[4]$conf.int[2]
+age7int42.home=age7t4.home[4]$conf.int[2]
+age7int52.home=age7t5.home[4]$conf.int[2]
+age7int62.home=age7t6.home[4]$conf.int[2]
+age7int72.home=age7t7.home[4]$conf.int[2]
+age7int82.home=age7t8.home[4]$conf.int[2]
+
+age7connumage.mean.home=c(meanw1age7.home,meanw2age7.home,meanw3age7.home,meanw4age7.home,meanw5age7.home,meanw6age7.home,meanw7age7.home,meanw8age7.home)
+
+age7interval.t1.home=c(age7int11.home,age7int21.home,age7int31.home,age7int41.home,age7int51.home,age7int61.home,age7int71.home,age7int81.home)
+age7interval.t2.home=c(age7int12.home,age7int22.home,age7int32.home,age7int42.home,age7int52.home,age7int62.home,age7int72.home,age7int82.home)
+
+
+age7interval.data.home=data.frame(wave=ageinterval.name1,
+                                  number=age7connumage.mean.home,
+                                  dataset=ageinterval.name2,
+                                  upper=age7interval.t2.home,
+                                  lower=age7interval.t1.home
+)
+
+p <- ggplot(age7interval.data.home, aes(wave, number, colour = dataset))
+figure27=p + geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
+  ggtitle("participant age:
+70+") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ylab(NULL)+
+  xlab(NULL)+
+  ylim(0,3)+
+  coord_fixed(ratio=5)+
+  theme(legend.position = "none")+
+  theme(axis.text.x = element_blank())+
+  theme(axis.text.y = element_blank())
+figure27
+
+library(patchwork)
+figure22|figure23|figure24|figure25|figure26|figure27
+
+#setwd("/Users/dogdogt/Desktop")
+png(filename = "Fig2.png",
+    width = 10,
+    height = 10,
+    units = "in",
+    res = 300)
+figure22|figure23|figure24|figure25|figure26|figure27
+dev.off()
