@@ -98,7 +98,7 @@ Fig2b=connum_away_intervals %>%
   ggplot(aes(factor(wave), number, colour =factor(wave))) + 
   geom_pointrange(aes(ymin = lower, ymax = upper),size=0.3)+
   ylab("number of contacts")+
-  ylim(0,12)+
+  ylim(0,11.5)+
   facet_grid(cols=vars(part_age_group))+
   theme(axis.text.x = element_blank())+
   xlab(NULL)+
