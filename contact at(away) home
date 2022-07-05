@@ -41,6 +41,13 @@ wavename2=c("CoMix wave1 (24/04)",
             "CoMix wave6 (02/07)",
             "CoMix wave7 (16/07)",
             "CoMix wave8 (30/07)")
+       
+title2=paste(strwrap("participant age:18-29",width = 20), collapse = "\n")
+title3=paste(strwrap("participant age:30-39",width = 20), collapse = "\n")
+title4=paste(strwrap("participant age:40-49",width = 20), collapse = "\n")
+title5=paste(strwrap("participant age:50-59",width = 20), collapse = "\n")
+title6=paste(strwrap("participant age:60-69",width = 20), collapse = "\n")
+title7=paste(strwrap("participant age:70+",width = 1), collapse = "\n")
 
 ###########################################################################
 ##contact at home
@@ -50,16 +57,12 @@ connum_home_intervals <- inner_join(sday, part, by="part_id") %>%
   summarise(ncontacts = sum(!is.na(cont_id) & cnt_home==TRUE)) %>%
   summarise(with(t.test(ncontacts), tibble(number=estimate, lower=conf.int[1], upper=conf.int[2])))
 
-connum_home_intervals$wave=factor(connum_home_intervals$wave, 
-                                  levels = wavename1,
-                                  labels = wavename2)
-
-levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[18,30)"]="participant age:18-29"
-levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[30,40)"]="participant age:30-39"
-levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[40,50)"]="participant age:40-49"
-levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[50,60)"]="participant age:50-59"
-levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[60,70)"]="participant age:60-69"
-levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[70,100)"]="participant age:70+"
+levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[18,30)"]=title2
+levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[30,40)"]=title3
+levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[40,50)"]=title4
+levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[50,60)"]=title5
+levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[60,70)"]=title6
+levels(connum_home_intervals$part_age_group)[levels(connum_home_intervals$part_age_group)=="[70,100)"]=title7
 
 Fig2a=connum_home_intervals %>% 
   ggplot(aes(factor(wave), number, colour =factor(wave))) + 
@@ -69,16 +72,8 @@ Fig2a=connum_home_intervals %>%
   facet_grid(cols=vars(part_age_group))+
   theme(axis.text.x = element_blank())+
   xlab(NULL)+
-  labs(color="wave(date)")
+  theme(legend.position = "none")
 Fig2a
-
-png(filename = "Fig2(a).png",
-    width = 10,
-    height = 5,
-    units = "in",
-    res = 300)
-Fig2a
-dev.off()
 
 ###########################################################################
 ##contact away home
@@ -92,12 +87,12 @@ connum_away_intervals$wave=factor(connum_away_intervals$wave,
                                   levels = wavename1,
                                   labels = wavename2)
 
-levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[18,30)"]="participant age:18-29"
-levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[30,40)"]="participant age:30-39"
-levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[40,50)"]="participant age:40-49"
-levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[50,60)"]="participant age:50-59"
-levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[60,70)"]="participant age:60-69"
-levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[70,100)"]="participant age:70+"
+levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[18,30)"]=title2
+levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[30,40)"]=title3
+levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[40,50)"]=title4
+levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[50,60)"]=title5
+levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[60,70)"]=title6
+levels(connum_away_intervals$part_age_group)[levels(connum_away_intervals$part_age_group)=="[70,100)"]=title7
 
 Fig2b=connum_away_intervals %>% 
   ggplot(aes(factor(wave), number, colour =factor(wave))) + 
@@ -107,14 +102,13 @@ Fig2b=connum_away_intervals %>%
   facet_grid(cols=vars(part_age_group))+
   theme(axis.text.x = element_blank())+
   xlab(NULL)+
-  labs(color="wave(date)")+
-  scale_y_continuous(breaks=seq(0, 12, 3))
+  labs(color="wave(date)")
 Fig2b
 
-png(filename = "Fig2(b).png",
-    width = 10,
-    height = 5,
+png(filename = "Fig2.png",
+    width = 13,
+    height = 7,
     units = "in",
     res = 300)
-Fig2b
+Fig2a|Fig2b
 dev.off()
