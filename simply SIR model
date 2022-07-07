@@ -15,7 +15,7 @@ S0 <- N - I0 - RM0 # susceptible
 init <- c(S = S0, I = I0, R = RM0) # initially
 
 pars <- c(
-  beta = 0.55, # Effective contact rate
+  beta = 0.55, # Infection rates
   gamma = 0.2, # Removal rate
   N = N # pop
 ) 
