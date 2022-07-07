@@ -1,0 +1,35 @@
+library(deSolve)
+sir <- function(time, state, pars) {
+  with(as.list(c(state, pars)), {
+    dS <- -beta * S * I/N
+    dI <- beta * S * I/N - gamma * I
+    dR <- gamma * I
+    return(list(c(dS, dI, dR)))
+  })
+}
+
+N <- 1000 #pop
+I0 <- 1 # Initial number of infected persons
+RM0 <- 0 # recovered
+S0 <- N - I0 - RM0 # susceptible
+init <- c(S = S0, I = I0, R = RM0) # initially
+
+pars <- c(
+  beta = 0.55, # Effective contact rate
+  gamma = 0.2, # Removal rate
+  N = N # pop
+) 
+# Number of iterations in days
+times <- seq(0, 150, by = 1) 
+
+res <- as.data.frame(ode(y = init, times = times, func = sir, parms = pars))
+
+ggplot(res) +
+  geom_line(aes(x = time, y = S, col = 'S'))+
+  geom_line(aes(x = time, y = I, col = 'I'))+
+  geom_line(aes(x = time, y = R, col = 'R'))+
+  theme_light(base_family = 'Kai') +
+  scale_colour_manual("",
+                      values=c("S" = "cornflowerblue", "I" = "darkred", "R" = "forestgreen")
+  ) +
+  scale_y_continuous('')
