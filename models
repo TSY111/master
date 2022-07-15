@@ -1,0 +1,117 @@
+library(deSolve)
+library(ggplot2)
+
+
+si <- function(time, state, pars) {
+  with(as.list(c(state, pars)), {
+    dS <- -beta * S * I/N
+    dI <- beta * S * I/N
+    return(list(c(dS, dI)))
+  })
+}
+
+N <- 1000 
+I0 <- 1 
+S0 <- N - I0 
+init <- c(S = S0, I = I0) 
+
+pars <- c(
+  beta = 0.55, 
+  N = N 
+) 
+
+times <- seq(0, 150, by = 1) 
+
+res <- as.data.frame(ode(y = init, times = times, func = si, parms = pars))
+
+ggplot(res) +
+  geom_line(aes(x = time, y = S, col = 'S'))+
+  geom_line(aes(x = time, y = I, col = 'I'))+
+  theme_light(base_family = 'Kai') +
+  scale_colour_manual("",
+                      values=c("S" = "cornflowerblue", "I" = "darkred")
+  ) +
+  scale_y_continuous('')
+
+
+sir <- function(time, state, pars) {
+  with(as.list(c(state, pars)), {
+    dS <- -beta * S * I/N
+    dI <- beta * S * I/N - gamma * I
+    dR <- gamma * I
+    return(list(c(dS, dI, dR)))
+  })
+}
+
+N <- 1000 
+I0 <- 1 
+R0 <- 0 
+S0 <- N - I0 - R0
+init <- c(S = S0, I = I0, R = R0)
+
+pars <- c(
+  beta = 0.55, 
+  gamma = 0.2,
+  N = N 
+) 
+
+times <- seq(0, 150, by = 1) 
+
+res <- as.data.frame(ode(y = init, times = times, func = sir, parms = pars))
+
+ggplot(res) +
+  geom_line(aes(x = time, y = S, col = 'S'))+
+  geom_line(aes(x = time, y = I, col = 'I'))+
+  geom_line(aes(x = time, y = R, col = 'R'))+
+  theme_light(base_family = 'Kai') +
+  scale_colour_manual("",
+                      values=c("S" = "cornflowerblue", "I" = "darkred", "R" = "forestgreen")
+  ) +
+  scale_y_continuous('')
+
+
+seir<-function(time, state, pars){ 
+  with(as.list(c(state, pars)),{ 
+    dS <-- S * beta * I/N 
+    dE <- S * beta * I/N - E * k 
+    dI <- E * k - I * (mu + gamma) 
+    dR <- I * gamma
+    dN <- dS + dE + dI + dR 
+    
+    list(c(dS,dE,dI,dR,dN)) 
+  }) 
+} 
+
+N <- 1000
+I0 <- 1
+E0 <- 0 
+R0 <- 0 
+S0 = N - I0 - R0
+init<-c(S = S0, E = E0, I = I0, R = R0, N = N)	
+time <- seq(0, 150, 1) 
+pars<-c( 
+  beta = 0.55,	
+  k = 1, 
+  gamma = 0.2,	
+  mu=0.02	 
+) 
+
+res.seir<-as.data.frame(lsoda(y = init, times = time, func = seir, parms = pars)) 
+
+ggplot(res.seir) +
+  geom_line(aes(x = time, y = S, col = 'S'))+
+  geom_line(aes(x = time, y = E, col = 'E'))+
+  geom_line(aes(x = time, y = I, col = 'I'))+
+  geom_line(aes(x = time, y = R, col = 'R'))+
+  geom_line(aes(x = time, y = N, col = 'N'))+
+  theme_light(base_family = 'Kai') +
+  scale_colour_manual("",
+                      values=c(
+                        "S" = "cornflowerblue", 
+                        "E" = "orange",
+                        "I" = "darkred", 
+                        "R" = "forestgreen", 
+                        "N" = "black"
+                      )
+  ) +
+  scale_y_continuous('')
