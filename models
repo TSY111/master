@@ -73,12 +73,10 @@ ggplot(res) +
 seir<-function(time, state, pars){ 
   with(as.list(c(state, pars)),{ 
     dS <-- S * beta * I/N 
-    dE <- S * beta * I/N - E * k 
-    dI <- E * k - I * (mu + gamma) 
+    dE <- S * beta * I/N - E * mu 
+    dI <- E * mu - I * gamma 
     dR <- I * gamma
-    dN <- dS + dE + dI + dR 
-    
-    list(c(dS,dE,dI,dR,dN)) 
+ list(c(dS,dE,dI,dR)) 
   }) 
 } 
 
@@ -86,14 +84,13 @@ N <- 1000
 I0 <- 1
 E0 <- 0 
 R0 <- 0 
-S0 = N - I0 - R0
-init<-c(S = S0, E = E0, I = I0, R = R0, N = N)	
+S0 = N - I0 - R0 -E0
+init<-c(S = S0, E = E0, I = I0, R = R0)	
 time <- seq(0, 150, 1) 
 pars<-c( 
   beta = 0.55,	
-  k = 1, 
   gamma = 0.2,	
-  mu=0.02	 
+  mu=0.3	 
 ) 
 
 res.seir<-as.data.frame(lsoda(y = init, times = time, func = seir, parms = pars)) 
@@ -103,15 +100,13 @@ ggplot(res.seir) +
   geom_line(aes(x = time, y = E, col = 'E'))+
   geom_line(aes(x = time, y = I, col = 'I'))+
   geom_line(aes(x = time, y = R, col = 'R'))+
-  geom_line(aes(x = time, y = N, col = 'N'))+
   theme_light(base_family = 'Kai') +
   scale_colour_manual("",
                       values=c(
                         "S" = "cornflowerblue", 
                         "E" = "orange",
                         "I" = "darkred", 
-                        "R" = "forestgreen", 
-                        "N" = "black"
+                        "R" = "forestgreen"
                       )
   ) +
   scale_y_continuous('')
