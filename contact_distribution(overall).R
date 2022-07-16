@@ -1,19 +1,12 @@
-library(here)
-source(here("get_data.R"))
+#overall
+allconnum <- inner_join(sday, part,by="part_id") %>%
+  left_join(con, by="part_id") %>%
+  group_by(wave, part_id) %>%
+  filter(part_age!="Under 18")%>%
+  summarise(ncontacts = sum(!is.na(cont_id))) %>%
+  summarise(mean = mean(ncontacts), Quartile.1 = quantile(ncontacts,0.25), Quartile.3 = quantile(ncontacts,0.75))
 
-sday <- be_sday
-part <- be_part
-con <- be_con
+data <- flextable(allconnum, col_keys = names(allconnum))
 
-library(dplyr)
-partw1 <- inner_join(sday, part, by="part_id") %>% filter(wave==1)
-conw1 <- inner_join(sday, con, by="part_id") %>% filter(wave==1)
-
-##overall
-connum_active <- conw1 %>% group_by(part_id) %>% summarise(ncontacts = n())
-table(connum_active$ncontacts)
-summary(connum_active)
-
-connum_all <- left_join(partw1, conw1, "part_id") %>% group_by(part_id) %>% summarise(ncontacts = sum(!is.na(sday_id.y)))
-table(connum_all$ncontacts)
-summary(connum_all)
+data <- valign(data, valign = "center", part = "header")
+save_as_docx("三线表结果" = data, path = "allThree_Line_Table.docx")
