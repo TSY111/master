@@ -1,13 +1,12 @@
-##classification by gender(Male)
-partw1m <- inner_join(sday, part, by="part_id") %>% filter(wave==1&part_gender=="M")
-id=which(conw1$part_id%in%partw1m$part_id)
-conw1m=conw1[c(id),]
-conw1m %>% group_by(part_id) %>% summarise(ncontacts = n())
+##classification by gender
+genderconnum <- inner_join(sday, part,by="part_id") %>%
+  left_join(con, by="part_id") %>%
+  group_by(wave, part_gender, part_id) %>%
+  filter(part_age!="Under 18")%>%
+  summarise(ncontacts = sum(!is.na(cont_id))) %>%
+  summarise(mean = mean(ncontacts), Quartile.1 = quantile(ncontacts,0.25), Quartile.3 = quantile(ncontacts,0.75))
 
-connum_activem <- conw1m %>% group_by(part_id) %>% summarise(ncontacts = n())
-table(connum_activem$ncontacts)
-summary(connum_activem)
+data <- flextable(genderconnum, col_keys = names(genderconnum))
 
-connum_allm <- left_join(partw1m, conw1m, "part_id") %>% group_by(part_id) %>% summarise(ncontacts = sum(!is.na(sday_id.y)))
-table(connum_all$ncontacts)
-summary(connum_all)
+data <- valign(data, valign = "center", part = "header")
+save_as_docx("三线表结果" = data, path = "genderThree_Line_Table.docx")
