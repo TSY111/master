@@ -1,17 +1,13 @@
 ##classification by househole size
+hhconnum <- inner_join(sday, part,by="part_id") %>%
+  left_join(con, by="part_id") %>%
+  left_join(at_hh.c,by="hh_id")%>%
+  group_by(wave, hh_size, part_id) %>%
+  filter(part_age!="Under 18")%>%
+  summarise(ncontacts = sum(!is.na(cont_id))) %>%
+  summarise(mean = mean(ncontacts), Quartile.1 = quantile(ncontacts,0.25), Quartile.3 = quantile(ncontacts,0.75))
 
-partw1h1 <- inner_join(sday, part, by="part_id") %>% filter(wave==1&hh_size=="1")
+data <- flextable(hhconnum, col_keys = names(hhconnum))
 
-id=which(conw1$part_id%in%partw1h1$part_id)
-
-conw1h1=conw1[c(id),]
-
-conw1h1 %>% group_by(part_id) %>% summarise(ncontacts = n())
-
-connum_activeh1 <- conw1h1 %>% group_by(part_id) %>% summarise(ncontacts = n())
-table(connum_activeh1$ncontacts)
-summary(connum_activeh1)
-
-connum_allh1 <- left_join(partw1h1, conw1h1, "part_id") %>% group_by(part_id) %>% summarise(ncontacts = sum(!is.na(sday_id.y)))
-table(connum_allh1$ncontacts)
-summary(connum_allh1)
+data <- valign(data, valign = "center", part = "header")
+save_as_docx("三线表结果" = data, path = "hhThree_Line_Table.docx")
