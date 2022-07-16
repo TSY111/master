@@ -1,17 +1,16 @@
 ##classification by age group
+options(digits = 2)	
+connum_waveIQR <- inner_join(sday, part, by="part_id") %>%
+  left_join(con, by="part_id") %>%
+  group_by(wave, part_age, part_id) %>%
+  filter(part_age!="Under 18")%>%
+  summarise(ncontacts = sum(!is.na(cont_id))) %>%
+  summarise(mean = mean(ncontacts), Quartile.1 = quantile(ncontacts,0.25), Quartile.3 = quantile(ncontacts,0.75))
+#install.packages("flextable")
+library(flextable)
+data <- flextable(connum_waveIQR, col_keys = names(connum_waveIQR))
 
-partw1age1 <- inner_join(sday, part, by="part_id") %>% filter(wave==1&age_group=="[20,30)")
+data <- valign(data, valign = "center", part = "header")
 
-id=which(conw1$part_id%in%partw1age1$part_id)
+save_as_docx("三线表结果" = data, path = "Three_Line_Table.docx")
 
-conw1age1=conw1[c(id),]
-
-conw1age1 %>% group_by(part_id) %>% summarise(ncontacts = n())
-
-connum_activeage1 <- conw1age1 %>% group_by(part_id) %>% summarise(ncontacts = n())
-table(connum_activeage1$ncontacts)
-summary(connum_activeage1)
-
-connum_allage1 <- left_join(partw1age1, conw1age1, "part_id") %>% group_by(part_id) %>% summarise(ncontacts = sum(!is.na(sday_id.y)))
-table(connum_allage1$ncontacts)
-summary(connum_allage1)
